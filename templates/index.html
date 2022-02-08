@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript" src="http://yourjavascript.com/7174319415/script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+		<script>
+            console.log("came here");
+			$(document).ready(function(){
+ 
+
+				 $('select#fabric').change(function () {
+    				 var optionSelected = $(this).find("option:selected");
+    				 var valueSelected  = optionSelected.val();
+     				 var fabric_name   = optionSelected.text();
+                      console.log(fabric_name);
+
+
+     				 data = {'cnt' : fabric_name };
+       				 $.ajax(
+                        {
+                            type: "GET",
+                            url: '/getdetails',
+                            data: data,
+                            success: function(result){
+       					 	console.log(result);
+       					 	$("#fabricType option").remove();
+       					 	for (var i = result.length - 1; i >= 0; i--) {
+       					 		$("#fabricType").append('<option>'+ result[i] +'</option>');
+       					 	};
+       					 }
+                        });
+ 				 });
+			});
+
+
+		</script>
+</head>
+
+<body>
+<center>    
+    <form action="/CostCalculator" method="post">
+        {% csrf_token %}
+<table style="border: 2px solid black; padding:5px">
+    <thead>
+        <h1>
+            Fbric cost calculator
+        </h1>
+    </thead>
+<tr>
+<td>
+    <label for="EndUser">END User:</label>
+</td>
+<td>
+    <select id="endUser" name="endUser">
+        <option value="none">----------</option>
+       
+        {% for endUser in END_USER_CHOICES %}
+        <option value="{{endUser.End_User}}">{{endUser.End_User}}</option>
+        {% endfor %}
+    </select>
+</td>
+</tr>
+<tr>
+<td>
+    <label for="fabric"> FABRIC:</label>
+</td>
+<td>
+    <select name="fabric" id="fabric" name="fabric">
+        <option value="none">----------</option>
+        {% for item in FABRIC %}
+        <option value="{{item.name}}">{{item.name}}</option>
+        {% endfor %}
+    </select>
+</td>
+</tr>
+<tr>
+<td>
+    <label for="fabricType"> FABRIC TYPE:</label>
+</td>
+<td>
+    <select name="fabricType" id="fabricType" name="fabricType" >
+        <option value="none">----------</option>
+    </select>
+</td>
+</tr>
+<tr>
+<td>
+    <label for="material">Material :</label>
+</td>
+<td>
+        {% for item in MATERIAL %}
+        {{item.name}}
+        <input type="checkbox" value="{{item.name}}" name="material" >
+        {% endfor %}
+</td>
+</tr>
+<tr>
+<td>
+    <label for="blend">Add Blend:</label>
+</td>
+<td>
+    <input type="text" name="blend1" required>  
+    /
+    <input type="text" name="blend2" required>
+</td>
+</tr>
+
+<tr>
+<td>
+    <label for="blend">GSM:</label>
+</td>
+<td>
+    <input type="text"  value="" name="GSM" required>
+</td>
+</tr>
+
+
+<tr>
+    <td>
+        <label for="blend">Wrap Count:</label>
+    </td>
+    <td>
+        <input type="text"  value="" name="wrapcount" required>
+    </td>
+</tr>
+
+<!--     
+<tr>
+    <td>
+        <label for="blend">Weft Count:</label>
+    </td>
+    <td>
+        <input type="text"  value="" name="weftcount" required>
+    </td>
+</tr> -->
+
+<tr>
+    <td>
+        <label for="blend">Add Ends:</label>
+    </td>
+    <td>
+        <input type="text" name="Ends" required>
+    </td>
+    </tr>
+    
+<tr>
+    <td>
+        <label for="blend">Add Picks:</label>
+    </td>
+    <td>
+        <input type="text" name="picks" required >
+    </td>
+    </tr>
+
+
+    
+<tr>
+    <td>
+        <label for="blend">Yarn Quality:</label>
+    </td>
+    <td>
+        <input type="text" name="Yarnquality" required >
+    </td>
+    </tr>
+    
+<tr>
+    <td>
+        <label for="blend">Add Dyeing Type:</label>
+    </td>
+    <td>
+        <input type="text" name="Dyeingtype" required >
+    </td>
+    </tr>
+    
+<tr>
+    <td>
+        <label for="blend">Add Color Depth:</label>
+    </td>
+    <td>
+        <input type="text" name="colorDepth" required>
+    </td>
+    </tr>
+    
+<tr>
+    <td>
+        <label for="blend">Add Texture :</label>
+    </td>
+    <td>
+        <input type="text"  name="Texture" required>
+    </td>
+    </tr>
+    
+<tr>
+    <td>
+        <label for="blend">Add Direction:</label>
+    </td>
+    <td>
+        <input type="text" name="Direction" required>
+    </td>
+    </tr>
+
+
+    
+<tr>
+    <td>
+        <label for="blend">Add Reapet Size:</label>
+    </td>
+    <td>
+        <input type="text" name="ReapetSize" required>
+    </td>
+    </tr>
+    
+<tr>
+    <td>
+        <label for="blend">Add Pre treatment:</label>
+    </td>
+    <td>
+        <input type="text" name="PreTreatment" required>
+    </td>
+    </tr>
+    
+<tr>
+    <td>
+        <label for="blend">Add Finishing Type:</label>
+    </td>
+    <td>
+        <input type="text" name="FinishingType" required>
+    </td>
+    </tr>
+    
+<tr>
+    <td>
+        <label for="blend">Add Waste %:</label>
+    </td>
+    <td>
+        <input type="text" name="Waste" required>
+    </td>
+    </tr>
+    
+<tr>
+    <td>
+        <label for="blend">Selvedge Branding:</label>
+    </td>
+    <td>
+        <input type="text" name="Branding" required>
+    </td>
+    </tr>
+    
+<tr>
+    <td>
+        <label for="blend">Add Width:</label>
+    </td>
+    <td>
+        <input type="text" name="Width" required>
+    </td>
+    </tr>
+
+    <tr>
+        <td>
+            <label for="blend">Order Quantity:</label>
+        </td>
+        <td>
+            <input type="text" name="OrderQuantity" required>
+        </td>
+        </tr>
+
+        <tr>
+            <td>
+                <label for="blend">Calculate:</label>
+            </td>
+            <td>
+                <input type="submit" >
+            </td>
+            </tr>
+        
+</table>        
+    </form>
+</center>
+
+
+</body>
+
+</html>
